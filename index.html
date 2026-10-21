@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Juan Pablo Gallo — Bailarín · Intérprete · Actor escénico</title>
+<meta name="description" content="Juan Pablo Gallo, bailarín de danza contemporánea, intérprete y actor escénico con base en Xalapa, Veracruz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:oklch(0.16 0.006 270);color:oklch(0.95 0.008 85);font-family:'Bricolage Grotesque',sans-serif;font-optical-sizing:auto;font-variant-numeric:tabular-nums;overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-underline-offset:3px}
+a:hover{color:oklch(0.8 0.11 55)}
+img{max-width:100%;display:block}
+button,input,textarea{font:inherit;font-variant-numeric:tabular-nums}
+h1,h2,h3{overflow-wrap:normal;word-break:normal;hyphens:manual}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+</style>
+</helmet>
+
+<header style="position:sticky;top:0;z-index:50;background:oklch(0.16 0.006 270 / 0.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid oklch(0.28 0.006 270);">
+  <nav aria-label="{{ t.navLabel }}" style="max-width:1280px;margin:0 auto;padding:0 clamp(16px,5vw,64px);height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+    <a href="#hero" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-variation-settings:'opsz' 96,'wdth' 75;letter-spacing:-0.01em;font-size:22px;text-decoration:none;min-height:44px;display:flex;align-items:center;white-space:nowrap;">Juan Pablo Gallo</a>
+    <div style="display:{{ navLinksDisplay }};align-items:center;gap:2px;">
+      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="6">
+        <a href="{{ n.href }}" style="font-size:14px;padding:0 10px;min-height:44px;display:flex;align-items:center;text-decoration:none;color:oklch(0.8 0.008 85);">{{ n.label }}</a>
+      </sc-for>
+      <a href="#contacto" style="font-size:14px;font-weight:500;padding:0 16px;margin-left:8px;min-height:40px;display:flex;align-items:center;text-decoration:none;border:1px solid oklch(0.95 0.008 85);">{{ t.contact }}</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:4px;">
+      <div role="group" aria-label="Idioma / Language" style="display:flex;align-items:center;">
+        <button type="button" onClick="{{ setEs }}" aria-pressed="{{ es }}" lang="es" style="min-width:44px;min-height:44px;background:none;border:0;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.08em;color:{{ esColor }};text-decoration:{{ esDeco }};text-underline-offset:6px;">ES</button>
+        <button type="button" onClick="{{ setEn }}" aria-pressed="{{ en }}" lang="en" style="min-width:44px;min-height:44px;background:none;border:0;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.08em;color:{{ enColor }};text-decoration:{{ enDeco }};text-underline-offset:6px;">EN</button>
+      </div>
+      <button type="button" onClick="{{ openMenu }}" aria-expanded="{{ menuOpen }}" aria-controls="menu-movil" style="display:{{ menuBtnDisplay }};min-width:44px;min-height:44px;padding:0 4px 0 12px;background:none;border:0;cursor:pointer;color:oklch(0.95 0.008 85);font-size:14px;font-weight:500;align-items:center;gap:8px;">{{ t.menu }}<span aria-hidden="true" style="display:flex;flex-direction:column;gap:5px;"><span style="display:block;width:18px;height:1.5px;background:currentColor;"></span><span style="display:block;width:12px;height:1.5px;background:currentColor;margin-left:6px;"></span></span></button>
+    </div>
+  </nav>
+</header>
+
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <div id="menu-movil" role="dialog" aria-modal="true" aria-label="{{ t.menu }}" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:80;background:oklch(0.13 0.005 270);display:flex;flex-direction:column;padding:0 16px calc(24px + env(safe-area-inset-bottom));overflow-y:auto;">
+    <div style="height:56px;display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-variation-settings:'opsz' 96,'wdth' 75;letter-spacing:-0.01em;font-size:22px;">Juan Pablo Gallo</span>
+      <button type="button" onClick="{{ closeMenu }}" style="min-width:44px;min-height:44px;background:none;border:0;color:oklch(0.95 0.008 85);font-size:14px;cursor:pointer;">{{ t.close }}</button>
+    </div>
+    <nav aria-label="{{ t.navLabel }}" style="display:flex;flex-direction:column;margin-top:24px;">
+      <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="6">
+        <a href="{{ n.href }}" onClick="{{ closeMenu }}" style="display:flex;align-items:baseline;gap:14px;min-height:60px;padding:10px 0;border-bottom:1px solid oklch(0.28 0.006 270);text-decoration:none;"><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;color:oklch(0.72 0.008 85);">{{ n.num }}</span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-variation-settings:'opsz' 96,'wdth' 75;letter-spacing:-0.01em;font-size:36px;line-height:1.05;">{{ n.label }}</span></a>
+      </sc-for>
+    </nav>
+    <a href="#contacto" onClick="{{ closeMenu }}" style="margin-top:32px;display:flex;align-items:center;justify-content:center;min-height:52px;background:oklch(0.95 0.008 85);color:oklch(0.16 0.006 270);text-decoration:none;font-weight:600;">{{ t.ctaContact }}</a>
+  </div>
+</sc-if>
+
+<main>
+  <section id="hero" data-screen-label="01 Hero" style="display:flex;flex-direction:row-reverse;flex-wrap:wrap;align-content:stretch;min-height:calc(100svh - 56px);">
+    <div style="flex:1 1 560px;position:relative;min-height:40svh;">
+      <dc-import name="FotoEscena" style="position:absolute;top:0;left:0;width:100%;height:100%;" src="assets/hero.png" pos="{{ heroPos }}" sizes="(min-width: 920px) 60vw, 100vw" label="{{ heroLabel }}" alt="{{ t.heroAlt }}" credit="[Nombre del fotógrafo]" ratio="auto" loading="eager" hint-size="100%,100%"></dc-import>
+    </div>
+    <div style="flex:1 1 360px;display:flex;flex-direction:column;justify-content:flex-end;gap:clamp(14px,2.2vw,26px);padding:clamp(20px,4vw,64px) clamp(16px,5vw,64px) clamp(24px,5vw,72px);">
+      <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-variation-settings:'opsz' 96,'wdth' 75;letter-spacing:-0.01em;font-size:clamp(2.75rem,9vw,7rem);line-height:0.9;margin:0;">Juan Pablo<br>Gallo</h1>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <p style="margin:0;font-size:clamp(1rem,1.5vw,1.25rem);font-weight:500;">
+          <sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Bailarín · Intérprete · Actor escénico</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Dancer · Performer · Stage actor</sc-if>
+        </p>
+        <p style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.76 0.008 85);">Xalapa, Veracruz — México</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;">
+        <a href="#trayectoria" style="display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;background:oklch(0.95 0.008 85);color:oklch(0.16 0.006 270);text-decoration:none;font-weight:600;font-size:15px;">{{ t.ctaTrack }}</a>
+        <a href="#contacto" style="display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border:1px solid oklch(0.95 0.008 85);text-decoration:none;font-weight:500;font-size:15px;">{{ t.ctaContact }}</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="semblanza" data-screen-label="02 Semblanza" style="padding:clamp(88px,14vw,200px) 0;scroll-margin-top:56px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(16px,5vw,64px);display:flex;flex-wrap:wrap;gap:clamp(24px,6vw,96px);">
+      <p style="flex:1 1 200px;margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.76 0.008 85);">01 — <sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Semblanza</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">About</sc-if></p>
+      <div data-reveal="" style="flex:3 1 520px;max-width:780px;display:flex;flex-direction:column;gap:28px;">
+        <sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">
+          <p style="margin:0;font-family:'Newsreader',serif;font-weight:400;font-size:clamp(1.45rem,2.8vw,2.1rem);line-height:1.3;max-width:34ch;text-wrap:pretty;">Juan Pablo Gallo es bailarín de danza contemporánea, intérprete y actor escénico con base en Xalapa, Veracruz. Su trabajo parte del cuerpo como el lugar donde se cuentan las historias: un cuerpo que se interroga, que denuncia y que también sabe reír.</p>
+          <div style="display:flex;flex-direction:column;gap:18px;max-width:65ch;font-family:'Newsreader',serif;font-weight:400;font-size:clamp(1.0625rem,0.98rem + 0.3vw,1.125rem);line-height:1.6;color:oklch(0.82 0.008 85);">
+            <p style="margin:0;text-wrap:pretty;">Es intérprete de Refractos Arte Escénico, compañía dirigida por Aarón Romero. Con ella ha participado en «Artículo 19» (2025), pieza inspirada en la Declaración Universal de los Derechos Humanos que visibiliza la libertad de expresión y la violencia contra periodistas en México. La obra se presentó en la Sala Miguel Covarrubias del CCU UNAM, entre otros recintos del país. También ha participado en «Autófagos» y «Tiempos de guerra».</p>
+            <p style="margin:0;text-wrap:pretty;">En teatro da vida a Tranquilino Gavilán en «El Ferrocarril de Pacona», comedia histórica de Francisco Jácome-García con Andrónicus MX. La obra fue reconocida con el Premio a la Producción Escénica (2023) y seleccionada en la Muestra Estatal de Artes Escénicas de Veracruz.</p>
+          </div>
+          <p style="margin:16px 0 0;padding-top:24px;border-top:1px solid oklch(0.3 0.006 270);max-width:26ch;font-family:'Newsreader',serif;font-weight:400;font-style:italic;font-size:clamp(1.45rem,2.8vw,2.1rem);line-height:1.25;text-wrap:balance;">Entre la introspección y la comedia, hace del movimiento una forma de narrar.</p>
+        </sc-if>
+        <sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:0;font-family:'Newsreader',serif;font-weight:400;font-size:clamp(1.45rem,2.8vw,2.1rem);line-height:1.3;max-width:34ch;text-wrap:pretty;">Juan Pablo Gallo is a contemporary dancer, performer and stage actor based in Xalapa, Veracruz. His work starts from the body as the place where stories are told: a body that questions itself, that denounces, and that also knows how to laugh.</p>
+          <div style="display:flex;flex-direction:column;gap:18px;max-width:65ch;font-family:'Newsreader',serif;font-weight:400;font-size:clamp(1.0625rem,0.98rem + 0.3vw,1.125rem);line-height:1.6;color:oklch(0.82 0.008 85);">
+            <p style="margin:0;text-wrap:pretty;">He is a performer with Refractos Arte Escénico, a company directed by Aarón Romero. With them he has performed in “Artículo 19” (2025), a piece inspired by the Universal Declaration of Human Rights that brings visibility to freedom of expression and violence against journalists in Mexico. The work was presented at Sala Miguel Covarrubias, CCU UNAM, among other venues across the country. He has also performed in “Autófagos” and “Tiempos de guerra”.</p>
+            <p style="margin:0;text-wrap:pretty;">In theatre he plays Tranquilino Gavilán in “El Ferrocarril de Pacona”, a historical comedy by Francisco Jácome-García with Andrónicus MX. The production received the Premio a la Producción Escénica (2023) and was selected for the Muestra Estatal de Artes Escénicas de Veracruz.</p>
+          </div>
+          <p style="margin:16px 0 0;padding-top:24px;border-top:1px solid oklch(0.3 0.006 270);max-width:26ch;font-family:'Newsreader',serif;font-weight:400;font-style:italic;font-size:clamp(1.45rem,2.8vw,2.1rem);line-height:1.25;text-wrap:balance;">Between introspection and comedy, he makes movement a way of telling.</p>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <section id="danza" data-screen-label="03 Danza" style="background:oklch(0.13 0.005 270);padding:clamp(64px,9vw,128px) 0 clamp(72px,10vw,144px);scroll-margin-top:56px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(16px,5vw,64px);">
+      <div data-reveal="" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 40px;padding-bottom:clamp(28px,4vw,48px);border-bottom:1px solid oklch(0.3 0.006 270);">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <p style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.76 0.008 85);">02 — <sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Danza</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Dance</sc-if></p>
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-variation-settings:'opsz' 96,'wdth' 75;letter-spacing:-0.01em;font-size:clamp(1.75rem,5vw,3.5rem);line-height:0.95;">Refractos<br>Arte Escénico</h2>
+        </div>
+        <p style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.76 0.008 85);"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Dirección</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Directed by</sc-if> · Aarón Romero</p>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(48px,5vw,64px) clamp(24px,4vw,64px);margin-top:clamp(32px,5vw,64px);">
+        <article data-reveal="" style="flex:1.35 1 440px;display:flex;flex-direction:column;gap:20px;">
+          <dc-import name="FotoEscena" src="assets/articulo-19-b.png" pos="44% 50%" sizes="(min-width: 920px) 55vw, 100vw" label="Foto de escena — Artículo 19" alt="{{ t.altA19 }}" credit="Eric Sánchez" ratio="4 / 5" hint-size="100%,560px"></dc-import>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;">
+            <span style="padding:4px 8px;border:1px solid oklch(0.95 0.008 85);"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Obra destacada</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Featured work</sc-if></span>
+            <span style="color:oklch(0.76 0.008 85);">2025</span>
+          </div>
+          <h3 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-variation-settings:'opsz' 96,'wdth' 75;letter-spacing:-0.01em;font-size:clamp(2.75rem,7.5vw,6rem);line-height:0.92;">Artículo 19</h3>
+          <p style="margin:0;max-width:52ch;font-family:'Newsreader',serif;font-weight:400;font-size:clamp(1.0625rem,0.98rem + 0.3vw,1.125rem);line-height:1.6;color:oklch(0.82 0.008 85);text-wrap:pretty;">
+            <sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Libertad de expresión y violencia contra periodistas en México, a partir de la Declaración Universal de los Derechos Humanos.</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Freedom of expression and violence against journalists in Mexico, drawing on the Universal Declaration of Human Rights.</sc-if>
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px 16px;padding-top:16px;border-top:1px solid oklch(0.3 0.006 270);">
+            <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.72 0.008 85);padding-top:3px;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Recintos</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Venues</sc-if></span>
+            <span style="font-size:15px;line-height:1.5;flex:1 1 240px;">Sala Miguel Covarrubias, CCU UNAM <span style="color:oklch(0.76 0.008 85);"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">· y otros recintos del país</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">· and other venues across Mexico</sc-if></span></span>
+          </div>
+        </article>
+
+        <div style="flex:1 1 340px;display:flex;flex-direction:column;gap:clamp(48px,6vw,80px);padding-top:clamp(0px,9vw,160px);">
+          <article data-reveal="" style="display:flex;flex-direction:column;gap:16px;">
+            <dc-import name="FotoEscena" src="assets/autofagos.png" pos="50% 45%" sizes="(min-width: 920px) 40vw, 100vw" label="Foto de escena — Autófagos" alt="{{ t.altAuto }}" credit="Arita Fotografía" ratio="4 / 3" hint-size="100%,300px"></dc-import>
+            <h3 style="margin:4px 0 0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-variation-settings:'opsz' 96,'wdth' 85;letter-spacing:-0.01em;font-size:clamp(2rem,4.4vw,3rem);line-height:0.95;">Autófagos</h3>
+            <p style="margin:0;max-width:44ch;font-family:'Newsreader',serif;font-weight:400;font-size:clamp(1.0625rem,0.98rem + 0.3vw,1.125rem);line-height:1.6;color:oklch(0.82 0.008 85);text-wrap:pretty;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Introspección corporal: viajes emocionales e individuales.</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Bodily introspection: emotional, individual journeys.</sc-if></p>
+          </article>
+          <article data-reveal="" style="display:flex;flex-direction:column;gap:16px;">
+            <dc-import name="FotoEscena" src="assets/tiempos-de-guerra.png" pos="50% 35%" sizes="(min-width: 920px) 40vw, 100vw" label="Foto de escena — Tiempos de guerra" alt="{{ t.altTdg }}" credit="[Nombre del fotógrafo]" ratio="4 / 3" hint-size="100%,300px"></dc-import>
+            <h3 style="margin:4px 0 0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-variation-settings:'opsz' 96,'wdth' 85;letter-spacing:-0.01em;font-size:clamp(2rem,4.4vw,3rem);line-height:0.95;">Tiempos de guerra</h3>
+            <p style="margin:0;max-width:44ch;font-family:'Newsreader',serif;font-weight:400;font-size:clamp(1.0625rem,0.98rem + 0.3vw,1.125rem);line-height:1.6;color:oklch(0.82 0.008 85);text-wrap:pretty;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Danza contemporánea y recursos teatrales sobre tensiones sociopolíticas.</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Contemporary dance and theatrical devices on sociopolitical tensions.</sc-if></p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="{{ t.bridge }}" style="display:flex;flex-wrap:wrap;">
+    <div style="flex:1 1 320px;background:oklch(0.13 0.005 270);padding:clamp(48px,9vw,128px) clamp(16px,5vw,64px);display:flex;justify-content:flex-end;align-items:flex-end;">
+      <p data-reveal="" style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-variation-settings:'opsz' 96,'wdth' 75;letter-spacing:-0.01em;font-size:clamp(2.5rem,7vw,6rem);line-height:0.95;text-align:right;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Un cuerpo,</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">One body,</sc-if></p>
+    </div>
+    <div style="flex:1 1 320px;background:oklch(0.93 0.03 78);color:oklch(0.22 0.02 50);padding:clamp(48px,9vw,128px) clamp(16px,5vw,64px);display:flex;align-items:flex-start;">
+      <p data-reveal="" style="margin:0;font-family:'Newsreader',serif;font-weight:400;font-style:italic;font-size:clamp(2.6rem,7.4vw,6.25rem);line-height:0.95;letter-spacing:-0.01em;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">dos registros.</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">two registers.</sc-if></p>
+    </div>
+  </section>
+
+  <section id="teatro" data-screen-label="04 Teatro" style="background:oklch(0.93 0.03 78);color:oklch(0.22 0.02 50);padding:clamp(24px,4vw,48px) 0 clamp(80px,12vw,176px);scroll-margin-top:56px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(16px,5vw,64px);display:flex;flex-direction:row-reverse;flex-wrap:wrap;gap:clamp(40px,6vw,96px);align-items:flex-start;">
+      <div data-reveal="" style="flex:1.2 1 440px;position:relative;padding-top:20px;">
+        <div style="padding:clamp(8px,1.2vw,14px);border:3px double oklch(0.47 0.14 40);">
+          <dc-import name="FotoEscena" tone="warm" src="assets/ferrocarril-cartel.png" sizes="(min-width: 920px) 50vw, 100vw" label="Cartel — El Ferrocarril de Pacona" alt="{{ t.altPacona }}" credit="[Nombre del fotógrafo]" ratio="1170 / 1460" hint-size="100%,560px"></dc-import>
+        </div>
+        <div style="position:absolute;top:0;left:-6px;transform:rotate(-5deg);background:oklch(0.93 0.03 78);border:2px solid oklch(0.47 0.14 40);color:oklch(0.42 0.13 40);padding:8px 12px;display:flex;flex-direction:column;gap:2px;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;line-height:1.3;box-shadow:0 2px 0 oklch(0.47 0.14 40 / 0.25);">
+          <span>Premio a la Producción Escénica</span>
+          <span style="font-family:'Newsreader',serif;font-weight:400;font-style:italic;font-size:28px;letter-spacing:0;line-height:1;text-transform:none;">2023</span>
+        </div>
+        <div style="width:min(48%,260px);margin:-14% 4% 0 auto;position:relative;transform:rotate(2.5deg);border:8px solid oklch(0.985 0.008 80);box-shadow:0 10px 28px oklch(0.3 0.04 50 / 0.18);">
+          <dc-import name="FotoEscena" tone="warm" src="assets/ferrocarril-escena.png" pos="22% 40%" sizes="260px" label="Foto de escena — Tranquilino Gavilán" alt="{{ t.altTranq }}" credit="[Nombre del fotógrafo]" ratio="4 / 5" hint-size="100%,300px"></dc-import>
+        </div>
+      </div>
+
+      <div style="flex:1 1 360px;display:flex;flex-direction:column;gap:28px;padding-top:clamp(0px,4vw,56px);">
+        <div data-reveal="" style="display:flex;flex-direction:column;gap:16px;">
+          <p style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.42 0.13 40);">03 — <sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Teatro</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Theatre</sc-if> · Andrónicus MX</p>
+          <h2 style="margin:0;font-family:'Newsreader',serif;font-weight:400;font-style:italic;font-size:clamp(2.5rem,6.5vw,5rem);line-height:0.98;letter-spacing:-0.01em;text-wrap:balance;">El Ferrocarril de Pacona</h2>
+          <p style="margin:0;font-size:15px;font-weight:500;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Premio a la Producción Escénica 2023 · Selección MEAEV</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Premio a la Producción Escénica 2023 · MEAEV selection</sc-if></p>
+        </div>
+
+        <dl data-reveal="" style="margin:0;display:flex;flex-direction:column;border-top:1px solid oklch(0.22 0.02 50);">
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:12px 0;border-bottom:1px solid oklch(0.82 0.03 70);">
+            <dt style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.38 0.03 50);"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Personaje</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Role</sc-if></dt>
+            <dd style="margin:0 0 0 auto;font-family:'Newsreader',serif;font-weight:400;font-style:italic;font-size:clamp(1.6rem,3vw,2rem);line-height:1.1;text-align:right;">Tranquilino Gavilán</dd>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:12px 0;border-bottom:1px solid oklch(0.82 0.03 70);">
+            <dt style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.38 0.03 50);"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Dramaturgia y dirección</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Written and directed by</sc-if></dt>
+            <dd style="margin:0 0 0 auto;font-size:16px;text-align:right;">Francisco Jácome-García</dd>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:12px 0;border-bottom:1px solid oklch(0.82 0.03 70);">
+            <dt style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.38 0.03 50);"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Género</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Genre</sc-if></dt>
+            <dd style="margin:0 0 0 auto;font-size:16px;text-align:right;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Comedia histórica / teatro dentro del teatro</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Historical comedy / play within a play</sc-if></dd>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:12px 0;border-bottom:1px solid oklch(0.82 0.03 70);">
+            <dt style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.38 0.03 50);"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Compañía</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Company</sc-if></dt>
+            <dd style="margin:0 0 0 auto;font-size:16px;text-align:right;">Andrónicus MX</dd>
+          </div>
+        </dl>
+
+        <div data-reveal="" style="display:flex;flex-direction:column;gap:10px;">
+          <p style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.38 0.03 50);"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Sinopsis</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Synopsis</sc-if></p>
+          <p style="margin:0;max-width:60ch;font-family:'Newsreader',serif;font-weight:400;font-size:clamp(1.0625rem,0.98rem + 0.3vw,1.125rem);line-height:1.6;text-wrap:pretty;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Basada en la vida y obra de Francisca García Batlle, «Pacona», pionera del teatro veracruzano del siglo XIX. Narra los enredos de una compañía itinerante que debe estrenar a contrarreloj.</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Based on the life and work of Francisca García Batlle, “Pacona”, a pioneer of 19th-century Veracruz theatre. It follows the mishaps of a touring company racing against the clock to open a show.</sc-if></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="trayectoria" data-screen-label="05 Trayectoria" style="background:oklch(0.955 0.006 85);color:oklch(0.2 0.008 270);padding:clamp(72px,11vw,160px) 0;scroll-margin-top:56px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(16px,5vw,64px);display:flex;flex-wrap:wrap;gap:clamp(24px,6vw,96px);">
+      <div style="flex:1 1 260px;display:flex;flex-direction:column;gap:14px;">
+        <p style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.42 0.008 270);">04 — <sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Trayectoria</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Record</sc-if></p>
+        <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-variation-settings:'opsz' 96,'wdth' 75;letter-spacing:-0.01em;font-size:clamp(1.75rem,5vw,3.5rem);line-height:0.98;text-wrap:balance;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Reconocimientos y presentaciones</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Awards and performances</sc-if></h2>
+      </div>
+      <div style="flex:2.4 1 520px;">
+        <ol style="list-style:none;margin:0;padding:0;border-top:1px solid oklch(0.2 0.008 270);">
+          <sc-for list="{{ timeline }}" as="it" hint-placeholder-count="6">
+            <li data-reveal="" style="display:grid;grid-template-columns:minmax(56px,112px) minmax(0,1fr);gap:clamp(12px,3vw,40px);padding:20px 0;border-bottom:1px solid oklch(0.86 0.006 85);">
+              <span aria-label="{{ it.yearLabel }}" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:14px;padding-top:6px;color:{{ it.yearColor }};">{{ it.year }}</span>
+              <div style="display:flex;flex-wrap:wrap;gap:6px 24px;align-items:baseline;">
+                <span style="flex:1 1 200px;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-variation-settings:'opsz' 96,'wdth' 85;font-size:clamp(1.35rem,2.4vw,1.75rem);line-height:1.1;">{{ it.work }}</span>
+                <span style="flex:2 1 240px;font-size:16px;line-height:1.5;color:oklch(0.38 0.008 270);text-wrap:pretty;">{{ it.detail }}</span>
+                <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;padding:3px 8px;border:1px solid {{ it.tagColor }};color:{{ it.tagColor }};">{{ it.type }}</span>
+              </div>
+            </li>
+          </sc-for>
+        </ol>
+        <p style="margin:16px 0 0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;color:oklch(0.42 0.008 270);">— <sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Fecha por confirmar.</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Date to be confirmed.</sc-if></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria" data-screen-label="06 Galería" style="padding:clamp(72px,10vw,144px) 0;scroll-margin-top:56px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(16px,5vw,64px);display:flex;flex-direction:column;gap:clamp(28px,4vw,48px);">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 32px;">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <p style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.76 0.008 85);">05 — <sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Galería</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Gallery</sc-if></p>
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-variation-settings:'opsz' 96,'wdth' 75;letter-spacing:-0.01em;font-size:clamp(1.75rem,5vw,3.5rem);line-height:0.98;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">En escena</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">On stage</sc-if></h2>
+        </div>
+        <p style="margin:0;font-size:14px;color:oklch(0.76 0.008 85);"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Toca una foto para verla completa.</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Tap a photo to view it full screen.</sc-if></p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(150px,26vw,290px),1fr));grid-auto-rows:clamp(150px,21vw,250px);grid-auto-flow:dense;gap:clamp(8px,1.2vw,16px);">
+        <sc-for list="{{ gallery }}" as="g" hint-placeholder-count="8">
+          <button type="button" onClick="{{ g.open }}" aria-label="{{ g.openLabel }}" style="grid-row:{{ g.rowSpan }};position:relative;display:block;padding:0;border:0;background:none;cursor:zoom-in;min-height:44px;">
+            <dc-import name="FotoEscena" style="position:absolute;top:0;left:0;width:100%;height:100%;" src="{{ g.src }}" pos="{{ g.pos }}" sizes="(min-width: 920px) 30vw, 50vw" label="{{ g.label }}" alt="{{ g.alt }}" credit="{{ g.credit }}" tone="{{ g.tone }}" ratio="auto" hint-size="100%,100%"></dc-import>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,3vw,40px);align-items:flex-start;margin-top:clamp(24px,4vw,48px);">
+        <figure data-reveal="" style="flex:2 1 440px;margin:0;display:flex;flex-direction:column;gap:12px;min-width:0;">
+          <div role="img" aria-label="{{ t.vidReelAlt }}" style="position:relative;width:100%;aspect-ratio:16 / 9;background-color:oklch(0.23 0.006 270);background-image:repeating-linear-gradient(135deg, oklch(0.27 0.006 270) 0 1px, transparent 1px 11px);display:flex;align-items:center;justify-content:center;">
+            <span style="position:absolute;top:12px;left:12px;right:12px;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.8 0.01 85);">Video embebido — Reel de danza · 16:9 · carga diferida</span>
+            <span aria-hidden="true" style="width:64px;height:64px;border-radius:50%;border:1px solid oklch(0.95 0.008 85);display:flex;align-items:center;justify-content:center;"><span style="width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:14px solid oklch(0.95 0.008 85);margin-left:4px;"></span></span>
+          </div>
+          <figcaption style="font-size:15px;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Reel de danza</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Dance reel</sc-if> <span style="color:oklch(0.76 0.008 85);">· Refractos Arte Escénico</span></figcaption>
+        </figure>
+        <figure data-reveal="" style="flex:1 1 240px;max-width:320px;margin:0 auto;display:flex;flex-direction:column;gap:12px;">
+          <div role="img" aria-label="{{ t.vidTeatroAlt }}" style="position:relative;width:100%;aspect-ratio:9 / 16;background-color:oklch(0.86 0.04 72);background-image:repeating-linear-gradient(135deg, oklch(0.81 0.05 68) 0 1px, transparent 1px 11px);display:flex;align-items:center;justify-content:center;">
+            <span style="position:absolute;top:12px;left:12px;right:12px;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.3 0.04 50);">Video embebido — Fragmento de teatro · 9:16</span>
+            <span aria-hidden="true" style="width:64px;height:64px;border-radius:50%;border:1px solid oklch(0.22 0.02 50);display:flex;align-items:center;justify-content:center;"><span style="width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:14px solid oklch(0.22 0.02 50);margin-left:4px;"></span></span>
+          </div>
+          <figcaption style="font-size:15px;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Fragmento</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Excerpt</sc-if> <span style="color:oklch(0.76 0.008 85);">· El Ferrocarril de Pacona</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="prensa" data-screen-label="07 Prensa" style="background:oklch(0.955 0.006 85);color:oklch(0.2 0.008 270);padding:clamp(72px,10vw,144px) 0;scroll-margin-top:56px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(16px,5vw,64px);display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,96px);">
+      <div style="flex:1 1 300px;display:flex;flex-direction:column;gap:20px;">
+        <p style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.42 0.008 270);">06 — <sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Prensa</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Press</sc-if></p>
+        <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-variation-settings:'opsz' 96,'wdth' 75;letter-spacing:-0.01em;font-size:clamp(1.75rem,5vw,3.5rem);line-height:0.98;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Prensa y dossier</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Press kit</sc-if></h2>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;max-width:380px;">
+          <a href="dossier/juan-pablo-gallo-dossier.pdf" download="" style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:0 18px;background:oklch(0.2 0.008 270);color:oklch(0.95 0.008 85);text-decoration:none;font-weight:600;"><span><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Descargar dossier</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Download press kit</sc-if></span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;font-weight:400;letter-spacing:0.1em;">PDF ↓</span></a>
+          <button type="button" onClick="{{ downloadBio }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:0 18px;background:none;border:1px solid oklch(0.2 0.008 270);color:oklch(0.2 0.008 270);cursor:pointer;font-weight:500;text-align:left;"><span><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Descargar semblanza corta</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Download short bio</sc-if></span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.1em;">TXT ↓</span></button>
+        </div>
+      </div>
+      <div style="flex:1.6 1 420px;display:flex;flex-direction:column;gap:40px;min-width:0;">
+        <div data-reveal="" style="display:flex;flex-direction:column;gap:14px;padding:clamp(20px,3vw,32px);background:oklch(0.985 0.004 85);border:1px solid oklch(0.86 0.006 85);">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <p style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.42 0.008 270);"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Semblanza corta</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Short bio</sc-if></p>
+            <button type="button" onClick="{{ copyBio }}" style="min-height:44px;padding:0 14px;background:none;border:1px solid oklch(0.75 0.006 85);color:oklch(0.2 0.008 270);cursor:pointer;font-size:14px;">{{ copyLabel }}</button>
+          </div>
+          <p style="margin:0;max-width:65ch;font-family:'Newsreader',serif;font-weight:400;font-size:clamp(1.0625rem,0.98rem + 0.3vw,1.125rem);line-height:1.6;text-wrap:pretty;">{{ shortBio }}</p>
+        </div>
+        <div style="display:flex;flex-direction:column;">
+          <p style="margin:0 0 8px;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.42 0.008 270);"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Notas de prensa</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Press coverage</sc-if></p>
+          <sc-for list="{{ press }}" as="pr" hint-placeholder-count="2">
+            <a href="{{ pr.href }}" style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 20px;padding:18px 0;min-height:64px;border-top:1px solid oklch(0.86 0.006 85);text-decoration:none;">
+              <span style="flex:0 0 auto;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;color:oklch(0.42 0.008 270);">{{ pr.outlet }}</span>
+              <span style="flex:1 1 220px;font-family:'Newsreader',serif;font-weight:400;font-size:21px;line-height:1.3;">{{ pr.title }}</span>
+              <span style="font-size:14px;font-weight:500;">{{ pr.cta }} →</span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" data-screen-label="08 Contacto" style="padding:clamp(72px,11vw,160px) 0 clamp(56px,8vw,96px);scroll-margin-top:56px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 clamp(16px,5vw,64px);display:flex;flex-direction:column;gap:clamp(40px,6vw,80px);">
+      <div data-reveal="" style="display:flex;flex-direction:column;gap:18px;">
+        <p style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.76 0.008 85);">07 — <sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Contacto</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Contact</sc-if></p>
+        <h2 style="margin:0;max-width:22ch;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-variation-settings:'opsz' 96,'wdth' 75;letter-spacing:-0.01em;font-size:clamp(1.75rem,5vw,3.5rem);line-height:1;text-wrap:balance;"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Disponible para funciones, residencias, colaboraciones y convocatorias.</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Available for performances, residencies, collaborations and open calls.</sc-if></h2>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(40px,6vw,96px);">
+        <ul style="flex:1 1 300px;list-style:none;margin:0;padding:0;border-top:1px solid oklch(0.3 0.006 270);">
+          <li><a href="mailto:correo@por-definir.mx" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;min-height:68px;padding:12px 0;border-bottom:1px solid oklch(0.3 0.006 270);text-decoration:none;"><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.76 0.008 85);"><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Correo</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Email</sc-if></span><span style="font-size:17px;">[correo por definir]</span></a></li>
+          <li><a href="https://wa.me/" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;min-height:68px;padding:12px 0;border-bottom:1px solid oklch(0.3 0.006 270);text-decoration:none;"><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.76 0.008 85);">WhatsApp</span><span style="font-size:17px;">[+52 número por definir]</span></a></li>
+          <li><a href="https://instagram.com/" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;min-height:68px;padding:12px 0;border-bottom:1px solid oklch(0.3 0.006 270);text-decoration:none;"><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:oklch(0.76 0.008 85);">Instagram</span><span style="font-size:17px;">@[usuario por definir]</span></a></li>
+        </ul>
+
+        <div style="flex:1.3 1 360px;min-width:0;">
+          <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ submit }}" style="display:flex;flex-direction:column;gap:20px;">
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;color:oklch(0.82 0.008 85);">{{ t.fName }}
+                <input name="nombre" type="text" required="" autocomplete="name" autocapitalize="words" enterkeyhint="next" style="width:100%;min-height:52px;padding:12px 14px;font-size:16px;color:oklch(0.95 0.008 85);background:oklch(0.19 0.006 270);border:1px solid oklch(0.36 0.006 270);border-radius:0;outline-offset:2px;">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;color:oklch(0.82 0.008 85);">{{ t.fEmail }}
+                <input name="correo" type="email" inputmode="email" required="" autocomplete="email" autocapitalize="off" spellcheck="false" enterkeyhint="next" style="width:100%;min-height:52px;padding:12px 14px;font-size:16px;color:oklch(0.95 0.008 85);background:oklch(0.19 0.006 270);border:1px solid oklch(0.36 0.006 270);border-radius:0;outline-offset:2px;">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;color:oklch(0.82 0.008 85);">{{ t.fMsg }}
+                <textarea name="mensaje" rows="5" required="" placeholder="{{ t.fMsgPh }}" enterkeyhint="send" style="width:100%;min-height:140px;padding:12px 14px;font-size:16px;line-height:1.5;color:oklch(0.95 0.008 85);background:oklch(0.19 0.006 270);border:1px solid oklch(0.36 0.006 270);border-radius:0;resize:vertical;outline-offset:2px;"></textarea>
+              </label>
+              <button type="submit" style="min-height:52px;padding:0 28px;background:oklch(0.95 0.008 85);color:oklch(0.16 0.006 270);border:0;cursor:pointer;font-size:16px;font-weight:600;">{{ t.fSend }}</button>
+            </form>
+          </sc-if>
+          <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+            <div role="status" style="display:flex;flex-direction:column;gap:16px;padding:28px 0;border-top:1px solid oklch(0.3 0.006 270);">
+              <p style="margin:0;font-family:'Newsreader',serif;font-weight:400;font-style:italic;font-size:clamp(1.6rem,3vw,2.1rem);line-height:1.2;">{{ sentMsg }}</p>
+              <button type="button" onClick="{{ resetForm }}" style="align-self:flex-start;min-height:44px;padding:0 16px;background:none;border:1px solid oklch(0.5 0.006 270);color:oklch(0.95 0.008 85);cursor:pointer;">{{ t.fAgain }}</button>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer style="border-top:1px solid oklch(0.28 0.006 270);padding:28px 0 {{ footerPad }};">
+  <div style="max-width:1280px;margin:0 auto;padding:0 clamp(16px,5vw,64px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px;font-size:13px;color:oklch(0.74 0.008 85);">
+    <span>© 2026 Juan Pablo Gallo · Xalapa, Veracruz</span>
+    <span><sc-if value="{{ es }}" hint-placeholder-val="{{ true }}">Fotografía: créditos en cada imagen</sc-if><sc-if value="{{ en }}" hint-placeholder-val="{{ false }}">Photography: credits on each image</sc-if></span>
+  </div>
+</footer>
+
+<sc-if value="{{ showBarEl }}" hint-placeholder-val="{{ false }}">
+  <div aria-hidden="{{ barHidden }}" style="position:fixed;left:0;right:0;bottom:0;z-index:40;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:oklch(0.16 0.006 270 / 0.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid oklch(0.3 0.006 270);transform:{{ barTransform }};transition:transform 0.3s ease;">
+    <a href="#contacto" tabindex="{{ barTab }}" style="display:flex;align-items:center;justify-content:center;min-height:48px;background:oklch(0.95 0.008 85);color:oklch(0.16 0.006 270);text-decoration:none;font-weight:600;font-size:15px;">{{ t.ctaContact }}</a>
+  </div>
+</sc-if>
+
+<sc-if value="{{ lbOpen }}" hint-placeholder-val="{{ false }}">
+  <div role="dialog" aria-modal="true" aria-label="{{ t.lbLabel }}" onTouchStart="{{ touchStart }}" onTouchEnd="{{ touchEnd }}" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:100;background:oklch(0.1 0.004 270 / 0.97);display:flex;flex-direction:column;padding:0 16px env(safe-area-inset-bottom);">
+    <div style="height:56px;display:flex;align-items:center;justify-content:space-between;flex:0 0 auto;">
+      <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.1em;color:oklch(0.8 0.008 85);">{{ lbCounter }}</span>
+      <button type="button" onClick="{{ closeLb }}" style="min-width:44px;min-height:44px;background:none;border:0;color:oklch(0.95 0.008 85);font-size:14px;cursor:pointer;">{{ t.close }} ✕</button>
+    </div>
+    <div style="flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;gap:12px;">
+      <button type="button" onClick="{{ prev }}" aria-label="{{ t.prev }}" style="display:{{ lbArrows }};flex:0 0 auto;width:48px;height:48px;border-radius:50%;background:none;border:1px solid oklch(0.45 0.006 270);color:oklch(0.95 0.008 85);cursor:pointer;font-size:18px;">←</button>
+      <div style="width:{{ lbWidth }};max-width:100%;">
+        <dc-import name="FotoEscena" src="{{ lbItem.src }}" pos="{{ lbItem.pos }}" label="{{ lbItem.label }}" alt="{{ lbItem.alt }}" credit="{{ lbItem.credit }}" tone="{{ lbItem.tone }}" ratio="{{ lbItem.ratio }}" loading="eager" hint-size="100%,60svh"></dc-import>
+      </div>
+      <button type="button" onClick="{{ next }}" aria-label="{{ t.next }}" style="display:{{ lbArrows }};flex:0 0 auto;width:48px;height:48px;border-radius:50%;background:none;border:1px solid oklch(0.45 0.006 270);color:oklch(0.95 0.008 85);cursor:pointer;font-size:18px;">→</button>
+    </div>
+    <div style="flex:0 0 auto;padding:14px 0 18px;display:flex;flex-direction:column;gap:4px;text-align:center;">
+      <p style="margin:0;font-size:14px;line-height:1.4;color:oklch(0.9 0.008 85);">{{ lbItem.alt }}</p>
+      <p style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:11px;color:oklch(0.74 0.008 85);">Foto: {{ lbItem.credit }} · {{ t.swipe }}</p>
+    </div>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;es&quot;,&quot;en&quot;],&quot;default&quot;:&quot;es&quot;,&quot;tsType&quot;:&quot;'es' | 'en'&quot;,&quot;section&quot;:&quot;Contenido&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamiento&quot;},&quot;stickyContact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Comportamiento&quot;}}">
+const T = {
+  es: {
+    navLabel: 'Principal', contact: 'Contacto', menu: 'Menú', close: 'Cerrar',
+    ctaTrack: 'Ver trayectoria', ctaContact: 'Contacto para programación', bridge: 'Un cuerpo, dos registros',
+    heroAlt: 'Juan Pablo Gallo de perfil, con el torso descubierto; una larga exposición deja una estela roja de su movimiento sobre fondo negro',
+    altA19: '«Artículo 19»: un intérprete de traje carga a otro sobre los hombros, que vacía un maletín de papeles sobre un cuerpo tendido entre periódicos; cae confeti sobre el escenario oscuro',
+    altAuto: '«Autófagos»: un intérprete con la cabeza echada atrás, sentado sobre una gran tabla de madera, mientras varias manos lo sujetan desde detrás',
+    altTdg: '«Tiempos de guerra»: intérpretes con camiseta verde y pantalón militar avanzan en posición baja hacia el público',
+    altPacona: 'Cartel de «El Ferrocarril de Pacona»: Juan Pablo Gallo con sombrero vaquero, camisa bordada y botas, en pose de baile sobre fondo rosa',
+    altTranq: 'Juan Pablo Gallo como Tranquilino Gavilán, en pleno salto con los brazos abiertos, dentro de un marco rosa frente a tres actrices',
+    vidReelAlt: 'Espacio para video: reel de danza de Juan Pablo Gallo',
+    vidTeatroAlt: 'Espacio para video: fragmento de «El Ferrocarril de Pacona»',
+    fName: 'Nombre', fEmail: 'Correo', fMsg: 'Mensaje', fMsgPh: 'Proyecto, fechas, recinto o convocatoria', fSend: 'Enviar mensaje', fAgain: 'Escribir otro mensaje',
+    sent: n => `Gracias${n ? ', ' + n : ''}. Tu mensaje fue recibido.`,
+    copy: 'Copiar', copied: 'Copiado', lbLabel: 'Foto a pantalla completa', prev: 'Foto anterior', next: 'Foto siguiente', swipe: 'Desliza para cambiar', open: 'Ampliar: ',
+    tbd: 'Fecha por confirmar',
+    types: { show: 'Presentación', award: 'Premio', sel: 'Selección', rep: 'Repertorio' },
+    pressOutlet: '[Medio]', pressTitle: 'Nota de prensa por agregar', pressCta: 'Leer nota',
+    bio: 'Juan Pablo Gallo es bailarín de danza contemporánea, intérprete y actor escénico con base en Xalapa, Veracruz. Es intérprete de Refractos Arte Escénico (dir. Aarón Romero), con quien ha participado en «Artículo 19» (2025), «Autófagos» y «Tiempos de guerra». En teatro interpreta a Tranquilino Gavilán en «El Ferrocarril de Pacona» (Andrónicus MX), Premio a la Producción Escénica 2023.',
+    nav: ['Semblanza', 'Danza', 'Teatro', 'Trayectoria', 'Galería', 'Prensa', 'Contacto']
+  },
+  en: {
+    navLabel: 'Main', contact: 'Contact', menu: 'Menu', close: 'Close',
+    ctaTrack: 'View record', ctaContact: 'Booking contact', bridge: 'One body, two registers',
+    heroAlt: 'Juan Pablo Gallo in profile, bare-chested; a long exposure leaves a red trail of his movement against a black background',
+    altA19: '“Artículo 19”: a performer in a suit carries another on his shoulders, who empties a briefcase of paper over a body lying among newspapers; confetti falls on the dark stage',
+    altAuto: '“Autófagos”: a performer, head thrown back, perched on a large wooden board while several hands grip him from behind',
+    altTdg: '“Tiempos de guerra”: performers in green T-shirts and military trousers advance low toward the audience',
+    altPacona: 'Poster for “El Ferrocarril de Pacona”: Juan Pablo Gallo in a cowboy hat, embroidered shirt and boots, striking a dance pose against a pink background',
+    altTranq: 'Juan Pablo Gallo as Tranquilino Gavilán, mid-leap with arms flung open, inside a pink frame before three actresses',
+    vidReelAlt: 'Video slot: Juan Pablo Gallo dance reel',
+    vidTeatroAlt: 'Video slot: excerpt from “El Ferrocarril de Pacona”',
+    fName: 'Name', fEmail: 'Email', fMsg: 'Message', fMsgPh: 'Project, dates, venue or open call', fSend: 'Send message', fAgain: 'Write another message',
+    sent: n => `Thank you${n ? ', ' + n : ''}. Your message was received.`,
+    copy: 'Copy', copied: 'Copied', lbLabel: 'Full-screen photo', prev: 'Previous photo', next: 'Next photo', swipe: 'Swipe to browse', open: 'Enlarge: ',
+    tbd: 'Date to be confirmed',
+    types: { show: 'Performance', award: 'Award', sel: 'Selection', rep: 'Repertoire' },
+    pressOutlet: '[Outlet]', pressTitle: 'Press article to be added', pressCta: 'Read',
+    bio: 'Juan Pablo Gallo is a contemporary dancer, performer and stage actor based in Xalapa, Veracruz. He performs with Refractos Arte Escénico (dir. Aarón Romero), with whom he has appeared in “Artículo 19” (2025), “Autófagos” and “Tiempos de guerra”. In theatre he plays Tranquilino Gavilán in “El Ferrocarril de Pacona” (Andrónicus MX), winner of the Premio a la Producción Escénica 2023.',
+    nav: ['About', 'Dance', 'Theatre', 'Record', 'Gallery', 'Press', 'Contact']
+  }
+};
+const NAV_IDS = ['semblanza', 'danza', 'teatro', 'trayectoria', 'galeria', 'prensa', 'contacto'];
+
+// Para agregar entradas: añadir un objeto. year: null = fecha por confirmar.
+const TIMELINE = [
+  { year: 2025, work: 'Artículo 19', type: 'show', detail: { es: 'Refractos Arte Escénico — Sala Miguel Covarrubias, CCU UNAM, y otros recintos del país', en: 'Refractos Arte Escénico — Sala Miguel Covarrubias, CCU UNAM, and other venues across Mexico' } },
+  { year: 2023, work: 'El Ferrocarril de Pacona', type: 'award', detail: { es: 'Premio a la Producción Escénica — Andrónicus MX', en: 'Premio a la Producción Escénica — Andrónicus MX' } },
+  { year: null, work: 'El Ferrocarril de Pacona', type: 'sel', detail: { es: 'Muestra Estatal de Artes Escénicas de Veracruz (MEAEV)', en: 'Muestra Estatal de Artes Escénicas de Veracruz (MEAEV)' } },
+  { year: null, work: 'Autófagos', type: 'rep', detail: { es: 'Refractos Arte Escénico', en: 'Refractos Arte Escénico' } },
+  { year: null, work: 'Tiempos de guerra', type: 'rep', detail: { es: 'Refractos Arte Escénico', en: 'Refractos Arte Escénico' } }
+];
+
+const GALLERY = [
+  { src: 'assets/duo-contemporaneo.png', pos: '50% 45%', span: 2, ratio: '1170 / 1369', r: 0.855, tone: 'dark', label: 'Dúo contemporáneo',
+    alt: { es: 'Fotografía en blanco y negro: dúo de danza contemporánea; él sostiene a una intérprete que arquea la espalda hacia atrás', en: 'Black-and-white photo: contemporary dance duet; he supports a performer arching backwards' } },
+  { src: 'assets/tiempos-de-guerra.png', pos: '50% 35%', span: 1, ratio: '1170 / 769', r: 1.52, tone: 'dark', label: 'Tiempos de guerra',
+    alt: { es: '«Tiempos de guerra»: intérpretes con camiseta verde y pantalón militar avanzan en posición baja', en: '“Tiempos de guerra”: performers in military trousers advance in a low stance' } },
+  { src: 'assets/pintura-corporal.png', pos: '50% 40%', span: 1, ratio: '1170 / 837', r: 1.4, tone: 'dark', label: 'Pintura corporal',
+    alt: { es: 'Dúo con pintura corporal y franjas blancas sobre los ojos; una intérprete de trenzas rojas sobre los hombros de un bailarín', en: 'Duet in body paint with white bands over the eyes; a performer with red braids on a dancer’s shoulders' } },
+  { src: 'assets/pilotos.png', pos: '50% 30%', span: 2, ratio: '1 / 1', r: 1, tone: 'warm', label: 'Pilotos',
+    alt: { es: 'Escena cómica: dos intérpretes vestidos de pilotos, uno sobre los hombros del otro, con los brazos abiertos como alas frente a una pista de aterrizaje', en: 'Comic scene: two performers dressed as pilots, one on the other’s shoulders, arms spread like wings before a runway' } },
+  { src: 'assets/espacio-publico.png', pos: '50% 50%', span: 1, ratio: '1 / 1', r: 1, tone: 'dark', label: 'Espacio público',
+    alt: { es: 'Danza en espacio abierto de noche: dos bailarines con sudadera oscura en un duelo físico sobre un estacionamiento iluminado por faros', en: 'Outdoor night performance: two dancers in dark hoodies in a physical duel on a car park lit by headlights' } },
+  { src: 'assets/hero.png', pos: '75% 35%', span: 1, ratio: '1170 / 1411', r: 0.83, tone: 'dark', label: 'Retrato en movimiento',
+    alt: { es: 'Juan Pablo Gallo de perfil; una larga exposición deja una estela roja de su movimiento', en: 'Juan Pablo Gallo in profile; a long exposure leaves a red trail of his movement' } },
+  { src: 'assets/articulo-19.png', pos: '40% 50%', span: 1, ratio: '1170 / 766', r: 1.53, tone: 'dark', label: 'Artículo 19', credit: 'Eric Sánchez',
+    alt: { es: '«Artículo 19»: intérpretes de traje oscuro, con periódicos, se inclinan en fila con una pierna en alto', en: '“Artículo 19”: performers in dark suits, holding newspapers, lean in a line with one leg raised' } },
+  { src: 'assets/articulo-19-b.png', pos: '44% 50%', span: 2, ratio: '1170 / 762', r: 1.54, tone: 'dark', label: 'Artículo 19', credit: 'Eric Sánchez',
+    alt: { es: '«Artículo 19»: un intérprete vacía un maletín de papeles sobre un cuerpo tendido entre periódicos, bajo una lluvia de confeti', en: '“Artículo 19”: a performer empties a briefcase of paper over a body lying among newspapers, under falling confetti' } },
+  { src: 'assets/ferrocarril-escena.png', pos: '40% 45%', span: 2, ratio: '1170 / 1148', r: 1.02, tone: 'warm', label: 'El Ferrocarril de Pacona',
+    alt: { es: '«El Ferrocarril de Pacona»: Tranquilino Gavilán salta con los brazos abiertos dentro de un marco rosa, frente a tres actrices', en: '“El Ferrocarril de Pacona”: Tranquilino Gavilán leaps, arms open, inside a pink frame before three actresses' } },
+  { src: 'assets/autofagos.png', pos: '50% 45%', span: 1, ratio: '1170 / 639', r: 1.83, tone: 'dark', label: 'Autófagos', credit: 'Arita Fotografía',
+    alt: { es: '«Autófagos»: un intérprete sentado sobre una gran tabla de madera, sujetado por varias manos', en: '“Autófagos”: a performer perched on a large wooden board, held by several hands' } },
+  { src: 'assets/tranquilino-gavilan.png', pos: '50% 28%', span: 2, ratio: '1170 / 1448', r: 0.81, tone: 'warm', label: 'Tranquilino Gavilán',
+    alt: { es: 'Promocional: Juan Pablo Gallo como Tranquilino Gavilán, con sombrero vaquero y camisa bordada con gallos', en: 'Promo image: Juan Pablo Gallo as Tranquilino Gavilán, in a cowboy hat and a shirt embroidered with roosters' } }
+];
+
+const PRESS = [{ href: '#prensa' }, { href: '#prensa' }];
+
+class Component extends DCLogic {
+  state = { w: typeof document !== 'undefined' ? document.documentElement.clientWidth : 1280, lang: null, menu: false, lb: -1, bar: false, sent: false, sentName: '', copied: false };
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ w: document.documentElement.clientWidth });
+    this.onScroll = () => {
+      const h = document.getElementById('hero'), c = document.getElementById('contacto');
+      if (!h || !c) return;
+      const show = h.getBoundingClientRect().bottom < 40 && c.getBoundingClientRect().top > window.innerHeight * 0.55;
+      if (show !== this.state.bar) this.setState({ bar: show });
+    };
+    this.onKey = e => {
+      if (this.state.lb >= 0) {
+        if (e.key === 'Escape') this.closeLb();
+        if (e.key === 'ArrowRight') this.step(1);
+        if (e.key === 'ArrowLeft') this.step(-1);
+      } else if (e.key === 'Escape' && this.state.menu) this.setState({ menu: false });
+    };
+    window.addEventListener('resize', this.onResize, { passive: true });
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('keydown', this.onKey);
+    this.onResize();
+    this.syncDoc();
+    setTimeout(() => this.setupReveal(), 60);
+  }
+  componentDidUpdate() { this.syncDoc(); }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('keydown', this.onKey);
+    if (this.io) this.io.disconnect();
+    document.body.style.overflow = '';
+  }
+  syncDoc() {
+    document.documentElement.lang = this.lang();
+    document.body.style.overflow = (this.state.lb >= 0 || this.state.menu) ? 'hidden' : '';
+  }
+  lang() { return this.state.lang || (this.props.lang === 'en' ? 'en' : 'es'); }
+
+  setupReveal() {
+    if (this.props.motion === false) return;
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const mobile = window.innerWidth < 760, d = mobile ? 0.45 : 0.8, y = mobile ? 10 : 22;
+    this.io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (en.isIntersecting) { en.target.style.opacity = '1'; en.target.style.transform = 'none'; this.io.unobserve(en.target); }
+    }), { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight) return;
+      el.style.opacity = '0';
+      el.style.transform = `translateY(${y}px)`;
+      el.style.transition = `opacity ${d}s ease, transform ${d}s cubic-bezier(.2,.7,.2,1)`;
+      this.io.observe(el);
+    });
+  }
+
+  step(dir) { this.setState(s => ({ lb: (s.lb + dir + GALLERY.length) % GALLERY.length })); }
+  closeLb() { this.setState({ lb: -1 }); }
+
+  renderVals() {
+    const L = this.lang(), t = T[L], w = this.state.w;
+    const mobile = w < 760, wide = w >= 1080;
+    const altFor = g => g.alt[L];
+    const gallery = GALLERY.map((g, i) => ({
+      ...g, src: g.src || '', pos: g.pos || '50% 50%', alt: altFor(g), credit: g.credit || '[Nombre del fotógrafo]', openLabel: t.open + altFor(g),
+      rowSpan: `span ${g.span}`, open: () => this.setState({ lb: i })
+    }));
+    const lbIdx = this.state.lb, lbOpen = lbIdx >= 0;
+    const lbItem = lbOpen ? gallery[lbIdx] : gallery[0];
+    const accent = 'oklch(0.47 0.14 40)', ink = 'oklch(0.2 0.008 270)';
+    const timeline = TIMELINE.map(it => ({
+      year: it.year || '—', yearLabel: it.year ? String(it.year) : t.tbd,
+      yearColor: it.year ? ink : 'oklch(0.5 0.008 270)',
+      work: it.work, detail: it.detail[L], type: t.types[it.type],
+      tagColor: it.type === 'award' || it.type === 'sel' ? accent : 'oklch(0.42 0.008 270)'
+    }));
+    const stickyOn = this.props.stickyContact !== false && !wide;
+    return {
+      t, es: L === 'es', en: L === 'en',
+      setEs: () => this.setState({ lang: 'es' }), setEn: () => this.setState({ lang: 'en' }),
+      esColor: L === 'es' ? 'oklch(0.95 0.008 85)' : 'oklch(0.66 0.008 85)',
+      enColor: L === 'en' ? 'oklch(0.95 0.008 85)' : 'oklch(0.66 0.008 85)',
+      esDeco: L === 'es' ? 'underline' : 'none', enDeco: L === 'en' ? 'underline' : 'none',
+      navItems: t.nav.slice(0, 6).map((label, i) => ({ label, href: '#' + NAV_IDS[i], num: String(i + 1).padStart(2, '0') })),
+      navLinksDisplay: wide ? 'flex' : 'none', menuBtnDisplay: wide ? 'none' : 'flex',
+      menuOpen: this.state.menu,
+      openMenu: () => this.setState({ menu: true }), closeMenu: () => this.setState({ menu: false }),
+      heroLabel: 'Foto/video real de escena', heroPos: w < 920 ? '78% 22%' : '70% 40%',
+      timeline, gallery,
+      lbOpen, lbItem, lbCounter: `${lbIdx + 1} / ${GALLERY.length}`,
+      lbWidth: `min(100%, calc((100svh - 190px) * ${lbItem.r}), 1100px)`,
+      lbArrows: mobile ? 'none' : 'flex',
+      closeLb: () => this.closeLb(), prev: () => this.step(-1), next: () => this.step(1),
+      touchStart: e => { this.tx = e.touches[0].clientX; this.ty = e.touches[0].clientY; },
+      touchEnd: e => {
+        const dx = e.changedTouches[0].clientX - this.tx, dy = e.changedTouches[0].clientY - this.ty;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) this.step(dx < 0 ? 1 : -1);
+        else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) this.closeLb();
+      },
+      shortBio: t.bio,
+      copyLabel: this.state.copied ? t.copied : t.copy,
+      copyBio: () => {
+        const done = () => { this.setState({ copied: true }); setTimeout(() => this.setState({ copied: false }), 1800); };
+        if (navigator.clipboard) navigator.clipboard.writeText(t.bio).then(done, done); else done();
+      },
+      downloadBio: () => {
+        const url = URL.createObjectURL(new Blob([t.bio], { type: 'text/plain;charset=utf-8' }));
+        const a = document.createElement('a'); a.href = url; a.download = `semblanza-juan-pablo-gallo-${L}.txt`;
+        document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+      },
+      press: PRESS.map(p => ({ href: p.href, outlet: t.pressOutlet, title: t.pressTitle, cta: t.pressCta })),
+      sent: this.state.sent, notSent: !this.state.sent, sentMsg: t.sent(this.state.sentName),
+      submit: e => { e.preventDefault(); const fd = new FormData(e.target); this.setState({ sent: true, sentName: String(fd.get('nombre') || '').trim().split(' ')[0] }); },
+      resetForm: () => this.setState({ sent: false, sentName: '' }),
+      showBarEl: stickyOn, barHidden: !this.state.bar, barTab: this.state.bar ? 0 : -1,
+      barTransform: this.state.bar ? 'translateY(0)' : 'translateY(110%)',
+      footerPad: stickyOn ? 'calc(96px + env(safe-area-inset-bottom))' : '28px'
+    };
+  }
+}
+</script>
+</body>
+</html>
